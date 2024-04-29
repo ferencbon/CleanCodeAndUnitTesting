@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1712138719812" clover="3.2.0">
+  <project timestamp="1712138719812" name="All files">
+    <metrics statements="31" coveredstatements="31" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6" elements="47" coveredelements="47" complexity="0" loc="31" ncloc="31" packages="1" files="1" classes="1"/>
+    <file name="calculator.ts" path="D:\BOF\workspace\CubixCleanCode\ts\week01_homework\src\calculator.ts">
+      <metrics statements="31" coveredstatements="31" conditionals="10" coveredconditionals="10" methods="6" coveredmethods="6"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="3" count="7" type="stmt"/>
+      <line num="4" count="7" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="7" count="6" type="stmt"/>
+      <line num="8" count="6" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="11" count="6" type="stmt"/>
+      <line num="12" count="6" type="stmt"/>
+      <line num="13" count="1" type="stmt"/>
+      <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="15" count="7" type="cond" truecount="1" falsecount="0"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="17" count="1" type="stmt"/>
+      <line num="18" count="6" type="cond" truecount="1" falsecount="0"/>
+      <line num="19" count="6" type="stmt"/>
+      <line num="20" count="1" type="stmt"/>
+      <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="22" count="4" type="cond" truecount="1" falsecount="0"/>
+      <line num="23" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="25" count="3" type="cond" truecount="1" falsecount="0"/>
+      <line num="26" count="3" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="28" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="29" count="5" type="stmt"/>
+      <line num="30" count="5" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
