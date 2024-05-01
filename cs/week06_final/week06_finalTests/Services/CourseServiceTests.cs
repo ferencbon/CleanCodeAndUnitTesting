@@ -38,7 +38,7 @@ namespace week06_final.Services.Tests
         public async Task GetCourse_ShouldReturnCourse_WhenCourseNameIsValid()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(course);
 
             // Act
@@ -61,7 +61,7 @@ namespace week06_final.Services.Tests
         public async Task AddCourse_ShouldCallCourseRepositoryAddCourseAsync_WhenCourseIsValid()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
             _mockCourseRepository.Setup(repo => repo.AddCourseAsync(course)).Returns(Task.CompletedTask);
 
             // Act
@@ -87,8 +87,8 @@ namespace week06_final.Services.Tests
             // Arrange
             var courses = new List<Course>
             {
-                new Course("Test Course 1", new DateTime(2024, 01, 01), 30, 999),
-                new Course("Test Course 2", new DateTime(2024, 01, 01), 30, 999)
+                new Course("Test Course 1", new DateTime(2024, 01, 01), 30, 2, 999),
+                new Course("Test Course 2", new DateTime(2024, 01, 01), 30, 2, 999)
             };
             _mockCourseRepository.Setup(repo => repo.GetCoursesAsync()).ReturnsAsync(courses);
 
@@ -118,7 +118,7 @@ namespace week06_final.Services.Tests
             var student = new Student("firstName", "lastName", "email@email.com");
             var courseName = "Test Course";
             _mockCourseRepository.Setup(repo => repo.AddStudentToCourseAsync(student, courseName)).Returns(Task.CompletedTask);
-            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 999));
+            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService.Setup(service => service.GetPaymentStatus(student, courseName)).ReturnsAsync(true);
 
             // Act
@@ -160,7 +160,7 @@ namespace week06_final.Services.Tests
             var courseName = "Test Course";
             var exception = new Exception("Test Exception");
             _mockCourseRepository.Setup(repo => repo.AddStudentToCourseAsync(student, courseName)).ThrowsAsync(exception);
-            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 999));
+            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
                 .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
                 .ReturnsAsync(true);
@@ -176,7 +176,7 @@ namespace week06_final.Services.Tests
             var student = new Student("firstName", "lastName", "email@email.com");
             var courseName = "Test Course";
             var exception = new Exception("Test Exception");
-            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 999));
+            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
                 .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
                 .ThrowsAsync(exception);
@@ -190,7 +190,7 @@ namespace week06_final.Services.Tests
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
             var courseName = "Test Course";
-            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 999));
+            _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
                 .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
                 .ReturnsAsync(false);

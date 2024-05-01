@@ -17,7 +17,7 @@ namespace week06_final.Models.Tests
         public void AddStudent_ShouldAddStudentToList()
         {
             // Arrange
-            var course = new Course("Math", DateTime.Now, 10, 1000);
+            var course = new Course("Math", DateTime.Now, 10, 2, 1000);
             var student = new Student("John", "Doe", "test@test.hu");
 
             // Act
@@ -31,7 +31,7 @@ namespace week06_final.Models.Tests
         public void GetStudents_ShouldReturnListOfStudents()
         {
             // Arrange
-            var sut = new Course("Math", DateTime.Now, 10, 1000);
+            var sut = new Course("Math", DateTime.Now, 10, 2, 1000);
             var student1 = new Student("John", "Doe", "test1@test.hu");
             var student2 = new Student("Jane", "Smith", "test2@test.hu");
             sut.AddStudent(student1);

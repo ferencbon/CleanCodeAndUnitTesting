@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
 using Moq;
+using Snapshooter.MSTest;
 using week06_final.Abstraction.Clients;
 using week06_final.Abstraction.Wrapper;
 using week06_final.Exceptions;
@@ -35,22 +36,22 @@ namespace week06_final.Repository.Tests
         public async Task AddCourseAsync_ShouldCallDbClientAdd_WhenCourseIsValid()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
-            _mockDbClient.Setup(db => db.AddAsync(course)).ReturnsAsync(true);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
+            _mockDbClient.Setup(db => db.AddAsync(course.CourseName, course)).ReturnsAsync(true);
 
             // Act
             await _sut.AddCourseAsync(course);
 
             // Assert
-            _mockDbClient.Verify(db => db.AddAsync(course), Times.Once);
+            _mockDbClient.Verify(db => db.AddAsync(course.CourseName, course), Times.Once);
         }
 
         [TestMethod]
         public async Task AddCourseAsync_ShouldLogTraceInformation_WhenCourseIsValid()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
-            _mockDbClient.Setup(db => db.AddAsync(course)).ReturnsAsync(true);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
+            _mockDbClient.Setup(db => db.AddAsync(course.CourseName, course)).ReturnsAsync(true);
 
             // Act
             await _sut.AddCourseAsync(course);
@@ -64,8 +65,8 @@ namespace week06_final.Repository.Tests
         public async Task AddCourseAsync_ShouldThrowExpectedException_WhenDbAddReturnFalse()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
-            _mockDbClient.Setup(db => db.AddAsync(course)).ReturnsAsync(false);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
+            _mockDbClient.Setup(db => db.AddAsync(course.CourseName, course)).ReturnsAsync(false);
 
             string ExpectedExceptionMessage = "Course cannot be added. See inner exception for details";
             string ExpectedInnerExceptionMessage = "Failed to add course to database.";
@@ -94,9 +95,9 @@ namespace week06_final.Repository.Tests
         public async Task AddCourseAsync_ShouldLogErrorCorrectly_WhenExceptionHappenedInDependency()
         {
             // Arrange
-            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Test Course", new DateTime(2024, 01, 01), 30, 2, 999);
             var exception = new Exception("Test Exception");
-            _mockDbClient.Setup(db => db.AddAsync(course)).ThrowsAsync(exception);
+            _mockDbClient.Setup(db => db.AddAsync(course.CourseName, course)).ThrowsAsync(exception);
 
             string ExpectedExceptionMessage = "Course cannot be added. See inner exception for details";
 
@@ -127,7 +128,7 @@ namespace week06_final.Repository.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 2, 999);
             _mockDbClient.Setup(db => db.GetAsync<Course>(It.IsAny<string>())).ReturnsAsync(course);
 
             // Act
@@ -221,7 +222,7 @@ namespace week06_final.Repository.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 2, 999);
             _mockDbClient.Setup(db => db.GetAsync<Course>(It.IsAny<string>())).ReturnsAsync(course);
 
             // Act
@@ -235,7 +236,7 @@ namespace week06_final.Repository.Tests
         public async Task GetCourseByNameAsync_ShouldReturnCourse_WhenCourseNameIsValid()
         {
             // Arrange
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 2, 999);
             _mockDbClient.Setup(db => db.GetAsync<Course>(It.IsAny<string>())).ReturnsAsync(course);
 
             // Act
@@ -325,8 +326,8 @@ namespace week06_final.Repository.Tests
             // Arrange
             var courses = new List<Course>
             {
-                new Course("Course1", new DateTime(2024, 01, 01), 30, 999),
-                new Course("Course2", new DateTime(2024, 01, 01), 30, 999)
+                new Course("Course1", new DateTime(2024, 01, 01), 30, 2, 999),
+                new Course("Course2", new DateTime(2024, 01, 01), 30, 2, 999)
             };
             _mockDbClient.Setup(db => db.GetAllAsync<Course>()).ReturnsAsync(courses);
 
@@ -350,10 +351,63 @@ namespace week06_final.Repository.Tests
             _mockLogger.Verify(logger => logger.LogError(exception, exception.Message), Times.Once);
         }
 
-        [TestMethod()]
-        public void GetCourseStatisticsTest()
+        [TestMethod]
+        public async Task GetCourseStatistics_ShouldReturnCourseStatistics_WhenCourseExists()
         {
-            //TODO : Implement this test
+            // Arrange
+            var courseName = "Test Course";
+            var course = new Course (courseName, DateTime.Now.AddDays(-7), 10, 2,999);
+            _mockDbClient.Setup(db => db.GetAsync<Course>(courseName)).ReturnsAsync(course);
+
+            // Act
+            var result = await _sut.GetCourseStatistics(courseName);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(courseName, result.CourseName);
+            _mockDbClient.Verify(db => db.GetAsync<Course>(courseName), Times.Once);
+        }
+
+        [TestMethod]
+        public async Task GetCourseStatistics_ShouldThrowRepositoryException_WhenCourseDoesNotExist()
+        {
+            // Arrange
+            var courseName = "Test Course";
+            _mockDbClient.Setup(db => db.GetAsync<Course>(courseName)).ReturnsAsync((Course)null);
+
+            // Act & Assert
+           var actualException= await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName));
+           Assert.IsInstanceOfType<NotFoundException>(actualException.InnerException); 
+           Assert.AreEqual(actualException.InnerException.Message,$"Course with name: {courseName} not found!");
+           _mockDbClient.Verify(db => db.GetAsync<Course>(courseName), Times.Once);
+        }
+
+        [TestMethod]
+        [DataRow("")]
+        [DataRow(null)]
+        public async Task GetCourseStatistics_ShouldThrowExceptionWithEncapsulatedArgumentException_WhenCourseNameIsNullOrEmpty(string courseName)
+        {
+            // Act
+            var exception = await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName));
+
+            // Assert
+            Assert.IsNotNull(exception);
+            Assert.IsNotNull(exception.InnerException);
+            Assert.IsInstanceOfType(exception.InnerException, typeof(ArgumentException));
+        }
+        [TestMethod]
+        public async Task GetCourseStatistics_ShouldReturnCorrectValues_WhenCourseExists()
+        {
+            // Arrange
+            var courseName = "Test Course";
+            var course = new Course(courseName, DateTime.Now.AddDays(-14),10, 2, 999);
+            _mockDbClient.Setup(m => m.GetAsync<Course>(courseName)).ReturnsAsync(course);
+
+            // Act
+            var result = await _sut.GetCourseStatistics(courseName);
+
+            Snapshot.Match(result);
+           
         }
     }
 }

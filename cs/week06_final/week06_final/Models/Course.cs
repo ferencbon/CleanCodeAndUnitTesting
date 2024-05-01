@@ -13,13 +13,15 @@ namespace week06_final.Models
         public string CourseName { get; private set; }
         public DateTime StartDate { get; private set; }
         public int LengthInWeeks { get; private set; }
+        public int LecturesEachWeek { get; private set; }
         public decimal CostInHuf { get; private set; }
 
-        public Course(string courseName, DateTime startDate, int lengthInWeeks, int costInHuf)
+        public Course(string courseName, DateTime startDate, int lengthInWeeks, int lecturesEachWeek, int costInHuf)
         {
             CourseName = courseName;
             StartDate = startDate;
             LengthInWeeks = lengthInWeeks;
+            LecturesEachWeek= lecturesEachWeek;
             CostInHuf = costInHuf;
         }
 

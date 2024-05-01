@@ -8,8 +8,8 @@ namespace week06_final.Abstraction.Clients
 {
     public interface IDbClient
     {
-        Task<bool> AddAsync<T>(T item);
-        Task<T> GetAsync<T>(string name);
+        Task<bool> AddAsync<T>(string key, T item);
+        Task<T> GetAsync<T>(string key);
         Task<List<T>> GetAllAsync<T>();
     }
 }

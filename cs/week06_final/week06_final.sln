@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "week06_final", "week06_final\week06_final.csproj", "{3D91EAF3-A5A0-4887-B24B-4D0DDE1E2A52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "week06_finalTests", "week06_finalTests\week06_finalTests.csproj", "{58343EE3-4B3F-435D-91DF-85ECFB475358}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "week06_finalTests", "week06_finalTests\week06_finalTests.csproj", "{58343EE3-4B3F-435D-91DF-85ECFB475358}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06D07033-5F1B-49B1-9F18-51EBAD5EBE4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

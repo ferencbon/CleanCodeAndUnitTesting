@@ -32,8 +32,8 @@ namespace week06_final.Repository
                 ArgumentNullException.ThrowIfNull(course);
 
                 _logger.LogTrace($"Adding course with name: {course.CourseName} to database.");
-                bool isAdded = await _dbClient.AddAsync(course);
-               
+                bool isAdded = await _dbClient.AddAsync(course.CourseName, course);
+
                 if (!isAdded)
                     throw new Exception("Failed to add course to database.");
             }
@@ -63,7 +63,6 @@ namespace week06_final.Repository
                 throw new RepositoryException("Student cannot be added to course. See inner exception for details", ex);
             }
         }
-      
 
         public async Task<Course> GetCourseByNameAsync(string courseName)
         {
@@ -77,7 +76,7 @@ namespace week06_final.Repository
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw new RepositoryException("Course cannot be retrieved. See inner exception for details",ex);
+                throw new RepositoryException("Course cannot be retrieved. See inner exception for details", ex);
             }
         }
 
@@ -95,31 +94,53 @@ namespace week06_final.Repository
             }
         }
 
-        public Task<CourseStatistic> GetCourseStatistics(string courseName)
+        public async Task<CourseStatistic> GetCourseStatistics(string courseName)
         {
-            ///TODO: Implement this method
-            //try
-            //{
-            //    var course = GetCourseByNameAsync(courseName).Result;
-            //    if (course == null)
-            //        throw new NotFoundException($"Course with name: {courseName} not found!");
+            try
+            {
+                ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
 
+                var course = await GetCourseByNameAsync(courseName);
+                ValidateCourseExists(course, courseName);
 
-
-            //    return Task.FromResult(course.GetCourseStatistic());
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, ex.Message);
-            //    throw new RepositoryException("Course statistics cannot be retrieved. See inner exception for details", ex);
-            //}
-            return null;
+                _logger.LogTrace($"Calculating statistics for course with name: {course.CourseName}.");
+                var courseStatistic = CalculateCourseStatistics(course);
+                return courseStatistic;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw new RepositoryException("Course statistics cannot be retrieved. See inner exception for details", ex);
+            }
         }
 
         private void ValidateStudentAndCourseName(Student student, string courseName)
         {
             ArgumentNullException.ThrowIfNull(student);
             ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
+        }
+
+        private void ValidateCourseExists(Course course, string courseName)
+        {
+            if (course == null)
+                throw new NotFoundException($"Course with name: {courseName} not found!");
+        }
+
+        private CourseStatistic CalculateCourseStatistics(Course course)
+        {
+            var totalLectures = course.LengthInWeeks * course.LecturesEachWeek;
+            var completedLectures = Convert.ToInt32(Math.Round((DateTime.Now - course.StartDate).TotalDays / 7) * course.LecturesEachWeek);
+            var completionPercentage = ((double)completedLectures / (double)totalLectures);
+
+            var courseStatistic = new CourseStatistic(
+                course.CourseName,
+                totalLectures,
+                completedLectures,
+                completionPercentage,
+                course.StartDate
+            );
+
+            return courseStatistic;
         }
     }
 }
