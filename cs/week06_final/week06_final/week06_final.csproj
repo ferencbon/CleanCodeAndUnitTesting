@@ -8,13 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstraction\Clients\" />
-    <Folder Include="Abstraction\Services\" />
-    <Folder Include="Abstraction\Repository\" />
-    <Folder Include="Clients\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repository\" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
 </Project>
