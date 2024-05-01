@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
+using Snapshooter.MSTest;
 using week06_final.Abstraction.Repository;
 using week06_final.Abstraction.Services;
 using week06_final.Abstraction.Wrapper;
@@ -194,7 +195,7 @@ namespace week06_final.Services.Tests
             _mockPaymentService
                 .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
                 .ReturnsAsync(false);
-            
+
             var expectedExceptionMessage = "Course is not yet paid by student.";
 
             // Act & Assert
@@ -208,7 +209,7 @@ namespace week06_final.Services.Tests
             var student = new Student("firstName", "lastName", "email@email.com");
             var courseName = "Test Course";
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>()))!.ReturnsAsync((Course)null!);
-           
+
 
             var expectedExceptionMessage = "Course not found.";
 
@@ -216,11 +217,22 @@ namespace week06_final.Services.Tests
             Exception actualException = await Assert.ThrowsExceptionAsync<NotFoundException>(() => _sut.AddStudentToCourse(student, courseName));
             Assert.AreEqual(actualException.Message, expectedExceptionMessage);
         }
-
-        [TestMethod()]
-        public void GetCourseStatisticsTest()
+        [TestMethod]
+        public async Task GetCourseStatistics_ShouldReturnCorrectValues_WhenCourseExists()
         {
-           //Todo Write your test here
+            // Arrange
+            var courseName = "Test Course";
+            var lastAccessedDate=new DateTime(2024,01,01);
+            var expectedCourseStatistic = new CourseStatistic(courseName, 20, 4, 20, lastAccessedDate);
+
+            _mockCourseRepository.Setup(repo => repo.GetCourseStatistics(courseName, It.IsAny<DateTime>())).ReturnsAsync(expectedCourseStatistic);
+            
+            // Act
+            var result = await _sut.GetCourseStatistics(courseName);
+
+            // Assert
+            _mockCourseRepository.Verify(repo => repo.GetCourseStatistics(courseName, It.IsAny<DateTime>()), Times.Once);
+            Snapshot.Match(result);
         }
     }
 }

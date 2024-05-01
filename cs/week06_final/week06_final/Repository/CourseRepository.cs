@@ -94,17 +94,18 @@ namespace week06_final.Repository
             }
         }
 
-        public async Task<CourseStatistic> GetCourseStatistics(string courseName)
+        public async Task<CourseStatistic> GetCourseStatistics(string courseName, DateTime statisticDate)
         {
             try
             {
                 ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
+                ArgumentNullException.ThrowIfNull(statisticDate);
 
                 var course = await GetCourseByNameAsync(courseName);
-                ValidateCourseExists(course, courseName);
+                ValidateCourseExists(course, courseName, statisticDate);
 
                 _logger.LogTrace($"Calculating statistics for course with name: {course.CourseName}.");
-                var courseStatistic = CalculateCourseStatistics(course);
+                var courseStatistic = CalculateCourseStatistics(course, statisticDate);
                 return courseStatistic;
             }
             catch (Exception ex)
@@ -120,16 +121,18 @@ namespace week06_final.Repository
             ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
         }
 
-        private void ValidateCourseExists(Course course, string courseName)
+        private void ValidateCourseExists(Course course, string courseName,DateTime statisticDate)
         {
             if (course == null)
                 throw new NotFoundException($"Course with name: {courseName} not found!");
+            if (course.StartDate > statisticDate)
+                throw new Exception($"Course with name: {courseName} has not started yet at {statisticDate}!");
         }
 
-        private CourseStatistic CalculateCourseStatistics(Course course)
+        private CourseStatistic CalculateCourseStatistics(Course course, DateTime statisticDate)
         {
             var totalLectures = course.LengthInWeeks * course.LecturesEachWeek;
-            var completedLectures = Convert.ToInt32(Math.Round((DateTime.Now - course.StartDate).TotalDays / 7) * course.LecturesEachWeek);
+            var completedLectures = Convert.ToInt32(Math.Round((statisticDate - course.StartDate).TotalDays / 7) * course.LecturesEachWeek);
             var completionPercentage = ((double)completedLectures / (double)totalLectures);
 
             var courseStatistic = new CourseStatistic(

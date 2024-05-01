@@ -14,6 +14,6 @@ namespace week06_final.Abstraction.Repository
         Task AddStudentToCourseAsync(Student student, string courseName);
         Task<Course> GetCourseByNameAsync(string courseName);
         Task<List<Course>> GetCoursesAsync();
-        Task<CourseStatistic> GetCourseStatistics(string courseName);
+        Task<CourseStatistic> GetCourseStatistics(string courseName,DateTime statisticDate);
     }
 }

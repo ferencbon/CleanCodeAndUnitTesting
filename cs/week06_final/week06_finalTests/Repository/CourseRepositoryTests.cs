@@ -356,11 +356,12 @@ namespace week06_final.Repository.Tests
         {
             // Arrange
             var courseName = "Test Course";
-            var course = new Course (courseName, DateTime.Now.AddDays(-7), 10, 2,999);
+            var StatisticDate= DateTime.Now;
+            var course = new Course (courseName, StatisticDate.AddDays(-7), 10, 2,999);
             _mockDbClient.Setup(db => db.GetAsync<Course>(courseName)).ReturnsAsync(course);
 
             // Act
-            var result = await _sut.GetCourseStatistics(courseName);
+            var result = await _sut.GetCourseStatistics(courseName,StatisticDate);
 
             // Assert
             Assert.IsNotNull(result);
@@ -376,7 +377,7 @@ namespace week06_final.Repository.Tests
             _mockDbClient.Setup(db => db.GetAsync<Course>(courseName)).ReturnsAsync((Course)null);
 
             // Act & Assert
-           var actualException= await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName));
+           var actualException= await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName,DateTime.Now));
            Assert.IsInstanceOfType<NotFoundException>(actualException.InnerException); 
            Assert.AreEqual(actualException.InnerException.Message,$"Course with name: {courseName} not found!");
            _mockDbClient.Verify(db => db.GetAsync<Course>(courseName), Times.Once);
@@ -388,23 +389,44 @@ namespace week06_final.Repository.Tests
         public async Task GetCourseStatistics_ShouldThrowExceptionWithEncapsulatedArgumentException_WhenCourseNameIsNullOrEmpty(string courseName)
         {
             // Act
-            var exception = await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName));
+            var exception = await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName,DateTime.Now));
 
             // Assert
             Assert.IsNotNull(exception);
             Assert.IsNotNull(exception.InnerException);
             Assert.IsInstanceOfType(exception.InnerException, typeof(ArgumentException));
         }
+
+        [TestMethod]
+        public async Task GetCourseStatistics_ShouldThrowException_WhenStatisticDateIsInvalid()
+        {
+            // Arrange
+            var courseName = "Test Course";
+            var course = new Course(courseName, DateTime.Now, 10, 2,999 ); 
+
+            var invalidStatisticDate = DateTime.Now.AddDays(-1);
+            var expectedInnerExceptionMessage =
+                $"Course with name: {courseName} has not started yet at {invalidStatisticDate}!";
+            
+            _mockDbClient.Setup(m => m.GetAsync<Course>(courseName)).ReturnsAsync(course);
+
+
+            // Act & Assert
+            var actualException = await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseStatistics(courseName, invalidStatisticDate));
+            Assert.IsInstanceOfType<Exception>(actualException.InnerException);
+            Assert.AreEqual(actualException.InnerException.Message,expectedInnerExceptionMessage);
+        }
         [TestMethod]
         public async Task GetCourseStatistics_ShouldReturnCorrectValues_WhenCourseExists()
         {
             // Arrange
             var courseName = "Test Course";
-            var course = new Course(courseName, DateTime.Now.AddDays(-14),10, 2, 999);
+            var statisticDate=new DateTime(2024, 01, 01);
+            var course = new Course(courseName, statisticDate.AddDays(-14),10, 2, 999);
             _mockDbClient.Setup(m => m.GetAsync<Course>(courseName)).ReturnsAsync(course);
 
             // Act
-            var result = await _sut.GetCourseStatistics(courseName);
+            var result = await _sut.GetCourseStatistics(courseName, statisticDate);
 
             Snapshot.Match(result);
            

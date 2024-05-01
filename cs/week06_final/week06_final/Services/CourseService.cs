@@ -58,7 +58,7 @@ public class CourseService : ICourseService
 
         public async Task<CourseStatistic> GetCourseStatistics(string courseName)
         {
-            return await _courseRepository.GetCourseStatistics(courseName);
+            return await _courseRepository.GetCourseStatistics(courseName, DateTime.Now);
         }
 
         private async Task ValidateCourseExists(string courseName)

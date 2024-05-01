@@ -12,12 +12,12 @@ namespace week06_final.Clients.Tests
     [TestClass()]
     public class DbClientTests
     {
-        private IDbClient _dbClient;
+        private IDbClient _sut;
 
         [TestInitialize]
         public void Setup()
         {
-            _dbClient = new DbClient();
+            _sut = new DbClient();
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace week06_final.Clients.Tests
             string value = "testValue";
 
             // Act
-            bool addResult = await _dbClient.AddAsync(key, value);
+            bool addResult = await _sut.AddAsync(key, value);
 
             // Assert
             Assert.IsTrue(addResult);
@@ -40,13 +40,26 @@ namespace week06_final.Clients.Tests
             // Arrange
             string key = "testKey";
             string value = "testValue";
-            await _dbClient.AddAsync(key, value);
+            await _sut.AddAsync(key, value);
 
             // Act
-            string getResult = await _dbClient.GetAsync<string>(key);
+            string getResult = await _sut.GetAsync<string>(key);
 
             // Assert
             Assert.AreEqual(value, getResult);
+        }
+
+        [TestMethod]
+        public async Task GetAsync_WhenKeyDoesNotExist_ReturnsDefault()
+        {
+            // Arrange
+            string key = "nonexistentKey";
+
+            // Act
+            var result = await _sut.GetAsync<string>(key);
+
+            // Assert
+            Assert.AreEqual(default(string), result);
         }
 
         [TestMethod]
@@ -57,11 +70,11 @@ namespace week06_final.Clients.Tests
             string value1 = "testValue1";
             string key2 = "testKey2";
             string value2 = "testValue2";
-            await _dbClient.AddAsync(key1, value1);
-            await _dbClient.AddAsync(key2, value2);
+            await _sut.AddAsync(key1, value1);
+            await _sut.AddAsync(key2, value2);
 
             // Act
-            var getAllResult = await _dbClient.GetAllAsync<string>();
+            var getAllResult = await _sut.GetAllAsync<string>();
 
             // Assert
             CollectionAssert.Contains(getAllResult, value1);
@@ -76,11 +89,11 @@ namespace week06_final.Clients.Tests
             string stringValue = "testValue";
 
             // Act
-            await _dbClient.AddAsync(key, intValue);
-            await _dbClient.AddAsync(key, stringValue);
+            await _sut.AddAsync(key, intValue);
+            await _sut.AddAsync(key, stringValue);
 
-            var retrievedIntValue = await _dbClient.GetAsync<int>(key);
-            var retrievedStringValue = await _dbClient.GetAsync<string>(key);
+            var retrievedIntValue = await _sut.GetAsync<int>(key);
+            var retrievedStringValue = await _sut.GetAsync<string>(key);
 
             // Assert
             Assert.AreEqual(intValue, retrievedIntValue);
@@ -95,11 +108,11 @@ namespace week06_final.Clients.Tests
             string stringValue = "testValue";
 
             // Act
-            await _dbClient.AddAsync(key, stringValue);
+            await _sut.AddAsync(key, stringValue);
 
 
             // Assert
-            Assert.ThrowsExceptionAsync<KeyExsistException>(()=> _dbClient.AddAsync(key, stringValue));
+            Assert.ThrowsExceptionAsync<KeyExsistException>(()=> _sut.AddAsync(key, stringValue));
         }
     }
 }
