@@ -47,7 +47,7 @@ namespace week06_final.Clients.Tests
             // Arrange
             Student student = null;
             var course = "Course1";
-            string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in GetPaymentStatusAsync. See inner exception for details";
 
             // Act & Assert
             var actualException =await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
@@ -61,7 +61,7 @@ namespace week06_final.Clients.Tests
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
             string course = null;
-            string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in GetPaymentStatusAsync. See inner exception for details";
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
@@ -103,7 +103,7 @@ namespace week06_final.Clients.Tests
             // Arrange
             Student student = null;
             var course = "Course1";
-            string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in CreatePaymentAsync. See inner exception for details";
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
@@ -117,7 +117,7 @@ namespace week06_final.Clients.Tests
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
             string course = null;
-            string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in CreatePaymentAsync. See inner exception for details";
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));

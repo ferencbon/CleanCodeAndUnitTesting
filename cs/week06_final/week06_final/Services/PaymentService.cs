@@ -22,7 +22,7 @@ namespace week06_final.Services
             _logger = logger;
             _financialApiClient = financialApiClient;
         }
-        public async Task<bool> GetPaymentStatus(Student student, string courseName)
+        public async Task<bool> GetPaymentStatusAsync(Student student, string courseName)
         {
             try
             {
@@ -34,11 +34,11 @@ namespace week06_final.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw new FinancialApiException("Error in GetPaymentStatus. See inner exception for details", ex);
+                throw new FinancialApiException("Error in GetPaymentStatusAsync. See inner exception for details", ex);
             }
         }
 
-        public async Task<bool> CreatePayment(Student student, string courseName)
+        public async Task<bool> CreatePaymentAsync(Student student, string courseName)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace week06_final.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                throw new FinancialApiException("Error in CreatePayment. See inner exception for details", ex);
+                throw new FinancialApiException("Error in CreatePaymentAsync. See inner exception for details", ex);
             }
 
         }

@@ -43,7 +43,7 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(course);
 
             // Act
-            var result = await _sut.GetCourse(course.CourseName);
+            var result = await _sut.GetCourseAsync(course.CourseName);
 
             // Assert
             Assert.AreEqual(course, result);
@@ -56,7 +56,7 @@ namespace week06_final.Services.Tests
             string courseName = null;
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.GetCourse(courseName));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.GetCourseAsync(courseName));
         }
         [TestMethod]
         public async Task AddCourse_ShouldCallCourseRepositoryAddCourseAsync_WhenCourseIsValid()
@@ -66,7 +66,7 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.AddCourseAsync(course)).Returns(Task.CompletedTask);
 
             // Act
-            await _sut.AddCourse(course);
+            await _sut.AddCourseAsync(course);
 
             // Assert
             _mockCourseRepository.Verify(repo => repo.AddCourseAsync(course), Times.Once);
@@ -79,7 +79,7 @@ namespace week06_final.Services.Tests
             Course course = null;
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddCourse(course));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddCourseAsync(course));
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.GetCoursesAsync()).ReturnsAsync(courses);
 
             // Act
-            var result = await _sut.GetCourses();
+            var result = await _sut.GetCoursesAsync();
 
             // Assert
             Assert.AreEqual(courses, result);
@@ -109,7 +109,7 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.GetCoursesAsync()).ThrowsAsync(exception);
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<Exception>(() => _sut.GetCourses());
+            await Assert.ThrowsExceptionAsync<Exception>(() => _sut.GetCoursesAsync());
         }
 
         [TestMethod]
@@ -120,14 +120,14 @@ namespace week06_final.Services.Tests
             var courseName = "Test Course";
             _mockCourseRepository.Setup(repo => repo.AddStudentToCourseAsync(student, courseName)).Returns(Task.CompletedTask);
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
-            _mockPaymentService.Setup(service => service.GetPaymentStatus(student, courseName)).ReturnsAsync(true);
+            _mockPaymentService.Setup(service => service.GetPaymentStatusAsync(student, courseName)).ReturnsAsync(true);
 
             // Act
-            await _sut.AddStudentToCourse(student, courseName);
+            await _sut.AddStudentToCourseAsync(student, courseName);
 
             // Assert
             _mockCourseRepository.Verify(repo => repo.AddStudentToCourseAsync(student, courseName), Times.Once);
-            _mockPaymentService.Verify(paymentService => paymentService.GetPaymentStatus(student, courseName), Times.Once);
+            _mockPaymentService.Verify(paymentService => paymentService.GetPaymentStatusAsync(student, courseName), Times.Once);
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace week06_final.Services.Tests
             var courseName = "Test Course";
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddStudentToCourse(student, courseName));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddStudentToCourseAsync(student, courseName));
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace week06_final.Services.Tests
             string courseName = null;
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddStudentToCourse(student, courseName));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => _sut.AddStudentToCourseAsync(student, courseName));
         }
 
 
@@ -163,10 +163,10 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.AddStudentToCourseAsync(student, courseName)).ThrowsAsync(exception);
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
-                .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
+                .Setup(paymentservice => paymentservice.GetPaymentStatusAsync(It.IsAny<Student>(), It.IsAny<string>()))
                 .ReturnsAsync(true);
             // Act & Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(() => _sut.AddStudentToCourse(student, courseName));
+            Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(() => _sut.AddStudentToCourseAsync(student, courseName));
             Assert.AreEqual(exception, actualException);
         }
 
@@ -179,10 +179,10 @@ namespace week06_final.Services.Tests
             var exception = new Exception("Test Exception");
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
-                .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
+                .Setup(paymentservice => paymentservice.GetPaymentStatusAsync(It.IsAny<Student>(), It.IsAny<string>()))
                 .ThrowsAsync(exception);
             // Act & Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(() => _sut.AddStudentToCourse(student, courseName));
+            Exception actualException = await Assert.ThrowsExceptionAsync<Exception>(() => _sut.AddStudentToCourseAsync(student, courseName));
             Assert.AreEqual(exception, actualException);
         }
         [TestMethod]
@@ -193,13 +193,13 @@ namespace week06_final.Services.Tests
             var courseName = "Test Course";
             _mockCourseRepository.Setup(repo => repo.GetCourseByNameAsync(It.IsAny<string>())).ReturnsAsync(new Course(courseName, new DateTime(2024, 01, 01), 30, 2, 999));
             _mockPaymentService
-                .Setup(paymentservice => paymentservice.GetPaymentStatus(It.IsAny<Student>(), It.IsAny<string>()))
+                .Setup(paymentservice => paymentservice.GetPaymentStatusAsync(It.IsAny<Student>(), It.IsAny<string>()))
                 .ReturnsAsync(false);
 
             var expectedExceptionMessage = "Course is not yet paid by student.";
 
             // Act & Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<NotFoundException>(() => _sut.AddStudentToCourse(student, courseName));
+            Exception actualException = await Assert.ThrowsExceptionAsync<NotFoundException>(() => _sut.AddStudentToCourseAsync(student, courseName));
             Assert.AreEqual(actualException.Message, expectedExceptionMessage);
         }
         [TestMethod]
@@ -214,7 +214,7 @@ namespace week06_final.Services.Tests
             var expectedExceptionMessage = "Course not found.";
 
             // Act & Assert
-            Exception actualException = await Assert.ThrowsExceptionAsync<NotFoundException>(() => _sut.AddStudentToCourse(student, courseName));
+            Exception actualException = await Assert.ThrowsExceptionAsync<NotFoundException>(() => _sut.AddStudentToCourseAsync(student, courseName));
             Assert.AreEqual(actualException.Message, expectedExceptionMessage);
         }
         [TestMethod]
@@ -228,7 +228,7 @@ namespace week06_final.Services.Tests
             _mockCourseRepository.Setup(repo => repo.GetCourseStatistics(courseName, It.IsAny<DateTime>())).ReturnsAsync(expectedCourseStatistic);
             
             // Act
-            var result = await _sut.GetCourseStatistics(courseName);
+            var result = await _sut.GetCourseStatisticsAsync(courseName);
 
             // Assert
             _mockCourseRepository.Verify(repo => repo.GetCourseStatistics(courseName, It.IsAny<DateTime>()), Times.Once);

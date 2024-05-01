@@ -10,10 +10,10 @@ namespace week06_final.Abstraction.Services
 {
     public interface ICourseService
     {
-        Task<Course> GetCourse(string name);
-        Task AddCourse(Course course);
-        Task<List<Course>> GetCourses();
-        Task AddStudentToCourse(Student student, string courseName);
-        Task<CourseStatistic> GetCourseStatistics(string courseName);
+        Task<Course> GetCourseAsync(string name);
+        Task AddCourseAsync(Course course);
+        Task<List<Course>> GetCoursesAsync();
+        Task AddStudentToCourseAsync(Student student, string courseName);
+        Task<CourseStatistic> GetCourseStatisticsAsync(string courseName);
     }
 }

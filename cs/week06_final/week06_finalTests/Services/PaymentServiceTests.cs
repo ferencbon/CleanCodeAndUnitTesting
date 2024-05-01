@@ -39,7 +39,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ReturnsAsync(true);
 
             // Act
-            var result = await _sut.GetPaymentStatus(student, course);
+            var result = await _sut.GetPaymentStatusAsync(student, course);
 
             // Assert
             Assert.IsTrue(result);
@@ -51,10 +51,10 @@ namespace week06_final.Services.Tests
             // Arrange
             Student student = null;
             var course = "Course1";
-            string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in GetPaymentStatusAsync. See inner exception for details";
 
             // Act & Assert
-            var actualExcepton = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
+            var actualExcepton = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatusAsync(student, course));
             Assert.AreEqual(ExpectedExceptionMessage, actualExcepton.Message);
             Assert.IsInstanceOfType(actualExcepton.InnerException, typeof(ArgumentNullException));
         }
@@ -65,10 +65,10 @@ namespace week06_final.Services.Tests
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
             string course = null;
-            string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in GetPaymentStatusAsync. See inner exception for details";
 
             // Act & Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatusAsync(student, course));
             Assert.AreEqual(ExpectedExceptionMessage, actualException.Message);
             Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentNullException));
         }
@@ -83,7 +83,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ThrowsAsync(expectedInnerException);
 
             // Act & Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatusAsync(student, course));
             Assert.AreEqual(actualException.InnerException, expectedInnerException);
         }
 
@@ -98,7 +98,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ThrowsAsync(ExpectedInternalException);
 
             // Act&Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatusAsync(student, course));
 
             _mockLogger.Verify(x => x.LogError(ExpectedInternalException, ExpectedInternalException.Message), Times.Once);
 
@@ -113,7 +113,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ReturnsAsync(true);
 
             // Act
-            var result = await _sut.CreatePayment(student, course);
+            var result = await _sut.CreatePaymentAsync(student, course);
 
             // Assert
             Assert.IsTrue(result);
@@ -125,10 +125,10 @@ namespace week06_final.Services.Tests
             // Arrange
             Student student = null;
             var course = "Course1";
-            string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in CreatePaymentAsync. See inner exception for details";
 
             // Act & Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePaymentAsync(student, course));
             Assert.AreEqual(ExpectedExceptionMessage, actualException.Message);
             Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentNullException));
         }
@@ -139,10 +139,10 @@ namespace week06_final.Services.Tests
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
             string course = null;
-            string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
+            string ExpectedExceptionMessage = "Error in CreatePaymentAsync. See inner exception for details";
 
             // Act & Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePaymentAsync(student, course));
             Assert.AreEqual(ExpectedExceptionMessage, actualException.Message);
             Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentNullException));
         }
@@ -158,7 +158,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ThrowsAsync(expectedInnerException);
 
             // Act & Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePaymentAsync(student, course));
             Assert.AreEqual(actualException.InnerException, expectedInnerException);
         }
 
@@ -173,7 +173,7 @@ namespace week06_final.Services.Tests
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ThrowsAsync(ExpectedInternalException);
 
             // Act&Assert
-            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
+            var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePaymentAsync(student, course));
             _mockLogger.Verify(x => x.LogError(ExpectedInternalException, ExpectedInternalException.Message), Times.Once);
 
         }

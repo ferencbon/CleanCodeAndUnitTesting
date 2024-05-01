@@ -27,50 +27,50 @@ public class CourseService : ICourseService
             _notificationService = notificationService;
         }
 
-        public async Task<Course> GetCourse(string name)
+        public async Task<Course> GetCourseAsync(string name)
         {
             ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
             return await _courseRepository.GetCourseByNameAsync(name);
         }
 
-        public async Task AddCourse(Course course)
+        public async Task AddCourseAsync(Course course)
         {
             ArgumentNullException.ThrowIfNull(course);
             await _courseRepository.AddCourseAsync(course);
         }
 
-        public async Task<List<Course>> GetCourses()
+        public async Task<List<Course>> GetCoursesAsync()
         {
             return await _courseRepository.GetCoursesAsync();
         }
 
-        public async Task AddStudentToCourse(Student student, string courseName)
+        public async Task AddStudentToCourseAsync(Student student, string courseName)
         {
             CheckStudentAndCourseParameter(student, courseName);
 
-            await ValidateCourseExists(courseName);
+            await ValidateCourseExistsAsync(courseName);
 
-            await ValidateCoursePaidByStudent(student, courseName);
+            await ValidateCoursePaidByStudentAsync(student, courseName);
 
             await _courseRepository.AddStudentToCourseAsync(student, courseName);
             await _notificationService.SendNotificationAsync($"{student.GetName()} was added to course.");
         }
 
-        public async Task<CourseStatistic> GetCourseStatistics(string courseName)
+        public async Task<CourseStatistic> GetCourseStatisticsAsync(string courseName)
         {
             return await _courseRepository.GetCourseStatistics(courseName, DateTime.Now);
         }
 
-        private async Task ValidateCourseExists(string courseName)
+        private async Task ValidateCourseExistsAsync(string courseName)
         {
             var course = await _courseRepository.GetCourseByNameAsync(courseName);
             if (course == null)
                 throw new NotFoundException("Course not found.");
         }
 
-        private async Task ValidateCoursePaidByStudent(Student student, string courseName)
+        private async Task ValidateCoursePaidByStudentAsync(Student student, string courseName)
         {
-            var isCoursePaidByStudent = await _paymentService.GetPaymentStatus(student, courseName);
+            var isCoursePaidByStudent = await _paymentService.GetPaymentStatusAsync(student, courseName);
             if (!isCoursePaidByStudent)
                 throw new NotFoundException("Course is not yet paid by student.");
         }

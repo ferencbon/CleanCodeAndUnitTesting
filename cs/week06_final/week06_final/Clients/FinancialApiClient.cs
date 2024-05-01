@@ -31,7 +31,7 @@ namespace week06_final.Clients
             catch (Exception ex)
             {
                 _logger.LogError(ex,ex.Message);
-                throw new FinancialApiException("Error in GetPaymentStatus. See inner exception for details", ex);
+                throw new FinancialApiException("Error in GetPaymentStatusAsync. See inner exception for details", ex);
             }
         }
 
@@ -46,7 +46,7 @@ namespace week06_final.Clients
             catch (Exception ex)
             {
                 _logger.LogError(ex,ex.Message);
-                throw new FinancialApiException("Error in CreatePayment. See inner exception for details", ex);
+                throw new FinancialApiException("Error in CreatePaymentAsync. See inner exception for details", ex);
             }
 
         }
