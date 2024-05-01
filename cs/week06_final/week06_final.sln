@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "week06_finalTests", "week06
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "week06_final_TesterApp", "week06_final_TesterApp\week06_final_TesterApp.csproj", "{A94E2A67-060D-4E77-95F8-9BD0E03F7016}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6AC36E3-4082-4BBF-A949-273FF3E307AE}"
+	ProjectSection(SolutionItems) = preProject
+		week06_final_CodeCoverage.coveragexml = week06_final_CodeCoverage.coveragexml
+		Week06_Final_CodeMetrics.xlsx = Week06_Final_CodeMetrics.xlsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
