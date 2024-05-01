@@ -98,8 +98,7 @@ namespace week06_final.Repository
         {
             try
             {
-                ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
-                ArgumentNullException.ThrowIfNull(statisticDate);
+                ValidateCourseNameAndStatisticDate(courseName, statisticDate);
 
                 var course = await GetCourseByNameAsync(courseName);
                 ValidateCourseExists(course, courseName, statisticDate);
@@ -121,7 +120,13 @@ namespace week06_final.Repository
             ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
         }
 
-        private void ValidateCourseExists(Course course, string courseName,DateTime statisticDate)
+        private void ValidateCourseNameAndStatisticDate(string courseName, DateTime statisticDate)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
+            ArgumentNullException.ThrowIfNull(statisticDate);
+        }
+
+        private void ValidateCourseExists(Course course, string courseName, DateTime statisticDate)
         {
             if (course == null)
                 throw new NotFoundException($"Course with name: {courseName} not found!");
