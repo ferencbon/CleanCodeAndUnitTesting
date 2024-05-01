@@ -11,7 +11,7 @@ namespace week06_final.Abstraction.Clients
 
     public interface IFinancialApiClient
     {
-        public Task<bool> GetPaymentStatus(Student student, Course course);
-        public Task<bool> CreatePayment(Student student, Course course);
+        public Task<bool> GetPaymentStatus(Student student, string courseName);
+        public Task<bool> CreatePayment(Student student, string courseName);
     }
 }

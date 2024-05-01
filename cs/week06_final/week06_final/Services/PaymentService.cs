@@ -22,13 +22,13 @@ namespace week06_final.Services
             _logger = logger;
             _financialApiClient = financialApiClient;
         }
-        public async Task<bool> GetPaymentStatus(Student student, Course course)
+        public async Task<bool> GetPaymentStatus(Student student, string courseName)
         {
             try
             {
-                CheckStudentAndCourseParameter(student, course);
+                CheckStudentAndCourseParameter(student, courseName);
 
-                var result = await _financialApiClient.GetPaymentStatus(student, course);
+                var result = await _financialApiClient.GetPaymentStatus(student, courseName);
                 return result;
             }
             catch (Exception ex)
@@ -38,13 +38,13 @@ namespace week06_final.Services
             }
         }
 
-        public async Task<bool> CreatePayment(Student student, Course course)
+        public async Task<bool> CreatePayment(Student student, string courseName)
         {
             try
             {
-                CheckStudentAndCourseParameter(student, course);
+                CheckStudentAndCourseParameter(student, courseName);
 
-                var result = await _financialApiClient.CreatePayment(student, course);
+                var result = await _financialApiClient.CreatePayment(student, courseName);
                 return result;
             }
             catch (Exception ex)
@@ -55,12 +55,10 @@ namespace week06_final.Services
 
         }
 
-        private void CheckStudentAndCourseParameter(Student student, Course course)
+        private void CheckStudentAndCourseParameter(Student student, string courseName)
         {
-            if (student == null)
-                throw new ArgumentNullException(nameof(student));
-            if (course == null)
-                throw new ArgumentNullException(nameof(course));
+            ArgumentNullException.ThrowIfNull(student);
+            ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
         }
     }
 }

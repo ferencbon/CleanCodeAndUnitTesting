@@ -24,14 +24,13 @@ namespace week06_final.Clients
         {
             try
             {
-                if (string.IsNullOrEmpty(message))
-                    throw new ArgumentNullException(nameof(message));
+                ArgumentException.ThrowIfNullOrWhiteSpace(message);
                
                 Console.WriteLine(message);
                 
                 _logger.LogTrace("Message was sent!");
             }
-            catch (ArgumentNullException ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw new NotificationException("Message cannot be sent. See inner exception for details.", ex);

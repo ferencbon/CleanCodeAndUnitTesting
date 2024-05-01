@@ -19,11 +19,11 @@ namespace week06_final.Clients
             this._logger = _logger;
         }
 
-        public async Task<bool> GetPaymentStatus(Student student, Course course)
+        public async Task<bool> GetPaymentStatus(Student student, string courseName)
         {
             try
             {
-                CheckStudentAndCourseParameter(student, course);
+                CheckStudentAndCourseParameter(student, courseName);
 
                 await Task.Delay(1000);
                 return true;
@@ -35,11 +35,11 @@ namespace week06_final.Clients
             }
         }
 
-        public async Task<bool> CreatePayment(Student student, Course course)
+        public async Task<bool> CreatePayment(Student student, string courseName)
         {
             try
             {
-                CheckStudentAndCourseParameter(student, course);
+                CheckStudentAndCourseParameter(student, courseName);
                 await Task.Delay(1000);
                 return true;
             }
@@ -51,12 +51,10 @@ namespace week06_final.Clients
 
         }
 
-        private void CheckStudentAndCourseParameter(Student student, Course course)
+        private void CheckStudentAndCourseParameter(Student student, string courseName)
         {
-            if (student == null)
-                throw new ArgumentNullException(nameof(student));
-            if (course == null)
-                throw new ArgumentNullException(nameof(course));
+            ArgumentNullException.ThrowIfNull(student);
+            ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
         }
     }
 }

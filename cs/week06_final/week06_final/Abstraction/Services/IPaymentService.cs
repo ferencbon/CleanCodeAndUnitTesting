@@ -10,7 +10,7 @@ namespace week06_final.Abstraction.Services
 {
     public interface IPaymentService
     {
-        public Task<bool> GetPaymentStatus(Student student, Course course);
-        public Task<bool> CreatePayment(Student student, Course course);
+        public Task<bool> GetPaymentStatus(Student student, string course);
+        public Task<bool> CreatePayment(Student student, string course);
     }
 }

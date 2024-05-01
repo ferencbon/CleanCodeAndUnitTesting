@@ -38,7 +38,7 @@ namespace week06_final.Clients.Tests
 
             // Assert
             Assert.AreEqual("Message cannot be sent. See inner exception for details.", actualException.Message);
-            Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentNullException));
+            Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentException));
         }
 
         [DataTestMethod]

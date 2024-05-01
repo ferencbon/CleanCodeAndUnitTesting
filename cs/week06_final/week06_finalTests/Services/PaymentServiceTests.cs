@@ -35,7 +35,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ReturnsAsync(true);
 
             // Act
@@ -50,7 +50,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             Student student = null;
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
 
             // Act & Assert
@@ -64,7 +64,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course = null;
+            string course = null;
             string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
 
             // Act & Assert
@@ -78,7 +78,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             var expectedInnerException = new Exception("Test Exception");
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ThrowsAsync(expectedInnerException);
 
@@ -92,7 +92,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
 
             var ExpectedInternalException = new Exception("Test Exception");
             _mockFinancialApiClient.Setup(x => x.GetPaymentStatus(student, course)).ThrowsAsync(ExpectedInternalException);
@@ -109,7 +109,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ReturnsAsync(true);
 
             // Act
@@ -124,7 +124,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             Student student = null;
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
 
             // Act & Assert
@@ -138,7 +138,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course = null;
+            string course = null;
             string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
 
             // Act & Assert
@@ -152,7 +152,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             var expectedInnerException = new Exception("Test Exception");
 
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ThrowsAsync(expectedInnerException);
@@ -167,7 +167,7 @@ namespace week06_final.Services.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
 
             var ExpectedInternalException = new Exception("Test Exception");
             _mockFinancialApiClient.Setup(x => x.CreatePayment(student, course)).ThrowsAsync(ExpectedInternalException);

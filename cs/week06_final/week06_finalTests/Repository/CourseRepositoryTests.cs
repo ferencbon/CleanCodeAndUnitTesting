@@ -269,7 +269,7 @@ namespace week06_final.Repository.Tests
             // Act & Assert
             RepositoryException actualException = await Assert.ThrowsExceptionAsync<RepositoryException>(() => _sut.GetCourseByNameAsync(courseName));
             Assert.AreEqual(ExpectedExceptionMessage, actualException.Message);
-            Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentNullException));
+            Assert.IsInstanceOfType(actualException.InnerException, typeof(ArgumentException));
         }
 
         [TestMethod]

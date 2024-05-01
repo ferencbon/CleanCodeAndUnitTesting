@@ -29,8 +29,7 @@ namespace week06_final.Repository
         {
             try
             {
-                if (course == null)
-                    throw new ArgumentNullException(nameof(course));
+                ArgumentNullException.ThrowIfNull(course);
 
                 _logger.LogTrace($"Adding course with name: {course.CourseName} to database.");
                 bool isAdded = await _dbClient.AddAsync(course);
@@ -70,8 +69,7 @@ namespace week06_final.Repository
         {
             try
             {
-                if(string.IsNullOrEmpty(courseName))
-                    throw new ArgumentNullException(nameof(courseName));
+                ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
 
                 var course = await _dbClient.GetAsync<Course>(courseName);
                 return course;
@@ -120,10 +118,8 @@ namespace week06_final.Repository
 
         private void ValidateStudentAndCourseName(Student student, string courseName)
         {
-            if (student == null)
-                throw new ArgumentNullException(nameof(student));
-            if (string.IsNullOrEmpty(courseName))
-                throw new ArgumentNullException(nameof(courseName));
+            ArgumentNullException.ThrowIfNull(student);
+            ArgumentException.ThrowIfNullOrWhiteSpace(courseName);
         }
     }
 }

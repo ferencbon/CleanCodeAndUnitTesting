@@ -33,7 +33,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
 
             // Act
             var result = await _sut.GetPaymentStatus(student, course);
@@ -46,7 +46,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             Student student = null;
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
 
             // Act & Assert
@@ -60,13 +60,13 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course = null;
+            string course = null;
             string ExpectedExceptionMessage = "Error in GetPaymentStatus. See inner exception for details";
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
             Assert.AreEqual(ExpectedExceptionMessage, actualException.Message);
-            Assert.IsInstanceOfType<ArgumentNullException>(actualException.InnerException);
+            Assert.IsInstanceOfType<ArgumentException>(actualException.InnerException);
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course =null;
+            string course =null;
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.GetPaymentStatus(student, course));
@@ -88,7 +88,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
 
             // Act
             var result = await _sut.CreatePayment(student, course);
@@ -102,7 +102,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             Student student = null;
-            var course = new Course("Course1", new DateTime(2024, 01, 01), 30, 999);
+            var course = "Course1";
             string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
 
             // Act & Assert
@@ -116,7 +116,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course = null;
+            string course = null;
             string ExpectedExceptionMessage = "Error in CreatePayment. See inner exception for details";
 
             // Act & Assert
@@ -130,7 +130,7 @@ namespace week06_final.Clients.Tests
         {
             // Arrange
             var student = new Student("firstName", "lastName", "email@email.com");
-            Course course = null;
+            string course = null;
 
             // Act & Assert
             var actualException = await Assert.ThrowsExceptionAsync<FinancialApiException>(() => _sut.CreatePayment(student, course));
